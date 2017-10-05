@@ -19,3 +19,21 @@ In order to bring this to the whole different level ![](https://github.com/snipe
 Check out [issues](https://github.com/jacekelgda/the-vault/issues) section to pick up, propose and comment issues for this project. We would like to keep this as much community effort as possible, that means ***YOUR IDEAS MATTER!***
 
 This project will be in focus for some time now and we would like to just go crazy with all different kinds of functionality. We already have some ideas but that doesn't mean we figured out 100% of it.
+
+
+### Setup
+
+The-Vault bot is based on [Serverless Slack App](https://github.com/johnagan/serverless-slack-app). Head there to get Slack Setup instructions.
+
+To fill out secrets, run `cp serverless.env.yml.example serverless.env.yml` and edit `serverless.env.yml` file.
+
+### Deployment
+
+```bash
+npm run deploy
+```
+
+To quicky see code changes on AWS Lambda environment (deploying only the code)
+```bash
+npm run codedeploy
+```
