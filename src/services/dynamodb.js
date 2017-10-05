@@ -1,9 +1,7 @@
 class DynamoDBService {
-  constructor(documentClient) {
+  constructor (documentClient) {
     this.db = documentClient;
   }
-
-
 }
 
 module.exports = DynamoDBService;
