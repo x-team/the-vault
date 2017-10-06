@@ -22,11 +22,11 @@ provider:
     INSTALL_REDIRECT: ${file(./serverless.env.yml):dev.SLACK_INSTALL_REDIRECT}
     VERIFICATION_TOKEN: ${file(./serverless.env.yml):dev.SLACK_VERIFICATION_TOKEN}
     ENABLE_LOGGING: ${file(./serverless.env.yml):dev.SLACK_ENABLE_LOGGING}
-
+    SLACK_ADMINS: ${file(./serverless.env.yml):dev.SLACK_ADMINS}
 
 functions:
   slack:
-    handler: src/index.handler
+    handler: build/index.handler
     events:
       ## Slash Commands, Events, and Interactive Messages
       - http:
@@ -75,3 +75,19 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${file(./serverless.env.yml):dev.SLACK_TABLE_NAME}
+    CoinsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${file(./serverless.env.yml):dev.COINS_TABLE_NAME}
