@@ -1,25 +1,12 @@
 'use strict';
 
+const AWS = require('aws-sdk');
+const DocumentDB = new AWS.DynamoDB.DocumentClient();
 const slack = require('serverless-slack');
-const dynamodb = require('./services/dynamodb');
+const DynamoDBService = require('./services/dynamodb');
+const CoinsService = new DynamoDBService(DocumentDB, 'Coins');
+const GrantCoinsCommand = require('./commands/grantCoins');
 
 exports.handler = slack.handler.bind(slack);
 
-require('./commands/grantCoins')(slack, dynamodb);
-
-// Interactive Message handler
-slack.on('greetings_click', (msg, bot) => {
-  const message = {
-    text: msg.actions[0].value,
-  };
-
-  bot.reply(message);
-});
-
-
-// Reaction Added event handler
-slack.on('reaction_added', (msg, bot) => {
-  bot.reply({
-    text: ':wave:',
-  });
-});
+new GrantCoinsCommand(slack, CoinsService); // eslint-disable-line no-new
