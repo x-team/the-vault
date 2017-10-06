@@ -18,6 +18,17 @@ class DynamoDBService {
       .then(data => data.Item);
   }
 
+  getAll () {
+    const params = {
+      TableName: this.tableName
+    };
+
+    return this.db
+      .scan(params)
+      .promise()
+      .then(data => data.Items);
+  }
+
   put (Item) {
     if (!Item.id) {
       return Promise.reject('Item.id is not defined!');
