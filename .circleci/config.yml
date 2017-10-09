@@ -1,0 +1,8 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: jacekelgda/pr-troll:fe6dd32124b6615a823ee7c74e0fb8564ddde6b5
+    steps:
+      - checkout
+      - run: pr-troll
