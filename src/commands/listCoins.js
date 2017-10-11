@@ -12,10 +12,7 @@ class ListCoinsCommand {
         const data = await this.coinsService.getAll();
         let message = 'Vault: \n';
 
-        console.log(data);
-
         for (const index in data) {
-          console.log(index);
           message += `\n${data[index].name} - ${data[index].coins} coins`;
         }
 
