@@ -5,4 +5,6 @@ jobs:
       - image: jacekelgda/pr-troll:fe6dd32124b6615a823ee7c74e0fb8564ddde6b5
     steps:
       - checkout
+      - run: yarn eslint
+      - run: yarn test
       - run: pr-troll

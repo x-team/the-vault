@@ -5,12 +5,22 @@
   "author": "Rafal Wilinski",
   "homepage": "https://github.com/jacekelgda/the-vault",
   "license": "MIT",
-  "keywords": ["slack", "app", "bot", "aws", "lambda", "dynamo", "x-team", "serverless"],
+  "keywords": [
+    "slack",
+    "app",
+    "bot",
+    "aws",
+    "lambda",
+    "dynamo",
+    "x-team",
+    "serverless"
+  ],
   "scripts": {
     "eslint": "./node_modules/.bin/eslint src/**/*.js --fix",
     "build": "rm -fr build && babel ./src -d build",
     "deploy": "npm run build && serverless deploy",
-    "codedeploy": "npm run build && serverless deploy function -f slack"
+    "codedeploy": "npm run build && serverless deploy function -f slack",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,5 +37,8 @@
     "eslint": "^4.8.0",
     "regenerator-runtime": "^0.11.0",
     "serverless-slack": "^1.0.25"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
   }
 }
