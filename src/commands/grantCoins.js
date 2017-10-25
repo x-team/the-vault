@@ -30,8 +30,7 @@ class GrantCoinsCommand {
 
             await this.coinsService.update(users[i].userId, 'SET coins = coins + :one', { ':one': 1 });
 
-            bot.replyPrivate(`Coin added! User now has ${user ? user.coins + 1 : 1} coins.`);
-            return;
+            bot.replyPrivate(`Coin added! ${users[i].userName} now has ${user ? user.coins + 1 : 1} coins.`);
           } catch (error) {
             bot.replyPrivate('Whoops! An Error occured!');
           }
