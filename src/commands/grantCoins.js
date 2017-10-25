@@ -1,5 +1,5 @@
 const isAdmin = require('../utils/isAdmin');
-const extractMentionedUser = require('../utils/extractMentionedUser');
+const extractMentionedUsers = require('../utils/extractMentionedUsers');
 
 class GrantCoinsCommand {
   constructor (slack, coinsService) {
@@ -11,26 +11,27 @@ class GrantCoinsCommand {
 
   init () {
     this.slack.on('/grantcoin', async (msg, bot) => {
-      const { userId, userName } = extractMentionedUser(msg.text);
+      const users = await extractMentionedUsers(msg.text);
 
       if (isAdmin(msg.user_name)) {
-        try {
-          const user = await this.coinsService.get(userId);
+        for (var i = 0; i < users.length; i++) {
+          try {
+            const user = await this.coinsService.get(users[i].userId);
+            if (!user) {
+              await this.coinsService.put({
+                id: users[i].userId,
+                name: users[i].userName,
+                coins: 0
+              });
+            }
 
-          if (!user) {
-            await this.coinsService.put({
-              id: userId,
-              name: userName,
-              coins: 0
-            });
+            await this.coinsService.update(users[i].userId, 'SET coins = coins + :one', { ':one': 1 });
+
+            bot.replyPrivate(`Coin added! User now has ${user ? user.coins + 1 : 1} coins.`);
+            return;
+          } catch (error) {
+            bot.replyPrivate('Whoops! An Error occured!');
           }
-
-          await this.coinsService.update(userId, 'SET coins = coins + :one', { ':one': 1 });
-
-          bot.replyPrivate(`Coin added! User now has ${user ? user.coins + 1 : 1} coins.`);
-          return;
-        } catch (error) {
-          bot.replyPrivate('Whoops! An Error occured!');
         }
       } else {
         bot.replyPrivate('You don\'t have a permission to do that!');

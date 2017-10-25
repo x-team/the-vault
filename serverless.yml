@@ -23,6 +23,7 @@ provider:
     VERIFICATION_TOKEN: ${file(./serverless.env.yml):dev.SLACK_VERIFICATION_TOKEN}
     ENABLE_LOGGING: ${file(./serverless.env.yml):dev.SLACK_ENABLE_LOGGING}
     SLACK_ADMINS: ${file(./serverless.env.yml):dev.SLACK_ADMINS}
+    SLACK_OAUTH_ACCESS_TOKEN: ${file(./serverless.env.yml):dev.SLACK_OAUTH_ACCESS_TOKEN}
 
 functions:
   slack:
