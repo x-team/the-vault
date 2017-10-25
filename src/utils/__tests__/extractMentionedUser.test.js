@@ -1,9 +1,7 @@
-const extractMentionedUser = require('./../extractMentionedUser');
+const extractMentionedUsers = require('./../extractMentionedUsers');
 
 test('it should extract user facts from message', () => {
-  const userFacts = {
-    userId: 'U7A9CF0SV',
-    userName: 'raf.wilinski'
-  };
-  expect(extractMentionedUser("Hello <@U7A9CF0SV|raf.wilinski>!")).toEqual(userFacts);
+  const data = [ { userId: 'U7A9CF0SV', userName: 'raf.wilinski' } ];
+  const slackTeamUsers = [{id: "U7A9CF0SV", name:"raf.wilinski"}, {id: "U7A9CF2SV", name:"john.doe"}];
+  expect(extractMentionedUsers("Hello @raf.wilinski !", slackTeamUsers)).toEqual(data);
 });

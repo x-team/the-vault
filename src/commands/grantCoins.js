@@ -1,5 +1,6 @@
 const isAdmin = require('../utils/isAdmin');
 const extractMentionedUsers = require('../utils/extractMentionedUsers');
+const { fetchUsersFromTeam } = require('../services/slack');
 
 class GrantCoinsCommand {
   constructor (slack, coinsService) {
@@ -11,12 +12,14 @@ class GrantCoinsCommand {
 
   init () {
     this.slack.on('/grantcoin', async (msg, bot) => {
-      const users = await extractMentionedUsers(msg.text);
+      const slackTeamUsers = await fetchUsersFromTeam();
+      const users = await extractMentionedUsers(msg.text, slackTeamUsers);
 
       if (isAdmin(msg.user_name)) {
-        for (var i = 0; i < users.length; i++) {
+        for (let i = 0; i < users.length; i += 1) {
           try {
             const user = await this.coinsService.get(users[i].userId);
+
             if (!user) {
               await this.coinsService.put({
                 id: users[i].userId,

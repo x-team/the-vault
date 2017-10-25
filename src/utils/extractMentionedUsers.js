@@ -1,17 +1,12 @@
-const { fetchUsersFromTeam } = require('../services/slack');
-
-const extractMentionedUsers = async (message) => {
+const extractMentionedUsers = (message, slackTeamUsers) => {
   const users = message.match(/@[a-z0-9][a-z0-9._-]*/g);
-  const slackTeamUsers = await fetchUsersFromTeam();
+  const usersData = [];
 
-  let usersData = [];
-
-  for (var i = 0; i < slackTeamUsers.length; i++) {
-      if (users.includes('@' + slackTeamUsers[i].name)) {
-        usersData.push({userId: slackTeamUsers[i].id, userName: slackTeamUsers[i].name});
+  for (let i = 0; i < slackTeamUsers.length; i += 1) {
+      if (users.includes(`@${slackTeamUsers[i].name}`)) {
+        usersData.push({ userId: slackTeamUsers[i].id, userName: slackTeamUsers[i].name });
       }
   }
-
   return usersData;
 };
 
