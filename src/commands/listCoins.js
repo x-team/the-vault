@@ -1,3 +1,5 @@
+const isAdmin = require('../utils/isAdmin');
+
 class ListCoinsCommand {
   constructor (slack, coinsService) {
     this.slack = slack;
@@ -9,11 +11,17 @@ class ListCoinsCommand {
   init () {
     this.slack.on('/listvault', async (msg, bot) => {
       try {
-        const data = await this.coinsService.getAll();
         let message = 'Vault: \n';
+        if (isAdmin(msg.user_name)) {
+          const data = await this.coinsService.getAll();
 
-        for (const index in data) {
-          message += `\n${data[index].name} - ${data[index].coins} coins`;
+          for (const index in data) {
+            message += `\n${data[index].name} - ${data[index].coins} coins`;
+          }
+        } else {
+          const data = await this.coinsService.get(msg.user_id);
+          const coins = data ? data.coins : 0;
+          message = `You have ${coins} :coin:`;
         }
 
         bot.replyPrivate(message);
