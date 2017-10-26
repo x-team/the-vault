@@ -30,6 +30,7 @@ Additionally to the instructions above you'll have to paste the `SLACK_BOT_USER_
 In the `Slash Commands` section of the Slack App page you will have to install the following commands that correspond to the commands in the source code:
 - `/listvault`
 - `/grantcoin`
+- `/overwritecoins`
 
 Make sure to enable `Escape channels, users, and links sent to your app` option.
 

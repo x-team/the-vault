@@ -200,7 +200,7 @@
     "prefer-template": "error",
     "quote-props": "off",
     "quotes": ["error", "single"],
-    "radix": "error",
+    "radix": "off",
     "require-await": "error",
     "require-jsdoc": "error",
     "rest-spread-spacing": "error",

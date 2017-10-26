@@ -9,8 +9,10 @@ const CoinsService = new DynamoDBService(DocumentDB, 'Coins');
 
 const GrantCoinsCommand = require('./commands/grantCoins');
 const ListCoinsCommand = require('./commands/listCoins');
+const OverwriteCoinsCommand = require('./commands/overwriteCoins');
 
 exports.handler = slack.handler.bind(slack);
 
-new GrantCoinsCommand(slack, CoinsService); // eslint-disable-line no-new
-new ListCoinsCommand(slack, CoinsService); // eslint-disable-line no-new
+new GrantCoinsCommand(slack, CoinsService);
+new ListCoinsCommand(slack, CoinsService);
+new OverwriteCoinsCommand(slack, CoinsService);
