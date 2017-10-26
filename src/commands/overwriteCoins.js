@@ -1,8 +1,7 @@
 const isAdmin = require('../utils/isAdmin');
-const { extractMentionedUsers } = require('../utils/extractMentionedUsers');
-const { notifyUserAboutCoinGranted } = require('../services/slack');
+const { extractMentionedUsersAndCoins } = require('../utils/extractMentionedUsers');
 
-class GrantCoinsCommand {
+class OverwriteCoinsCommand {
   constructor (slack, coinsService) {
     this.slack = slack;
     this.coinsService = coinsService;
@@ -11,8 +10,8 @@ class GrantCoinsCommand {
   }
 
   init () {
-    this.slack.on('/grantcoin', async (msg, bot) => {
-      const users = await extractMentionedUsers(msg.text);
+    this.slack.on('/overwritecoins', async (msg, bot) => {
+      const users = await extractMentionedUsersAndCoins(msg.text);
 
       if (isAdmin(msg.user_name)) {
         for (let i = 0; i < users.length; i += 1) {
@@ -27,10 +26,9 @@ class GrantCoinsCommand {
               });
             }
 
-            await this.coinsService.update(users[i].userId, 'SET coins = coins + :one', { ':one': 1 });
-            await notifyUserAboutCoinGranted(users[i].userName);
+            await this.coinsService.update(users[i].userId, 'SET coins = :current', { ':current': users[i].coins });
 
-            bot.replyPrivate(`Coin added! ${users[i].userName} now has ${user ? user.coins + 1 : 1} :coin:.`);
+            bot.replyPrivate(`Coins updated! ${users[i].userName} now has ${users[i].coins} :coin:.`);
           } catch (error) {
             bot.replyPrivate('Whoops! An Error occured!');
           }
@@ -42,4 +40,4 @@ class GrantCoinsCommand {
   }
 }
 
-module.exports = GrantCoinsCommand;
+module.exports = OverwriteCoinsCommand;

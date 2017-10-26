@@ -1,14 +1,25 @@
-/*
-* Example message: "Hello <@U7A9CF0SV|raf.wilinski>!"
-*/
-const extractMentionedUser = message => {
-  const mentionPart = message.split('<')[1].split('>')[0];
+const extractMentionedUser = text => {
+  const mentionPart = text.split('<')[1].split('>')[0];
   const userId = mentionPart.split('|')[0].split('@')[1];
   const userName = mentionPart.split('|')[1];
 
   return {
     userId,
     userName
+  };
+};
+
+const extractMentionedUserAndCoins = text => {
+  const regex = /<@([a-zA-Z0-9]+)\|([a-z0-9._-]+)>\s+([0-9]{1,3})/;
+  const matches = text.match(regex);
+  const userId = matches[1];
+  const userName = matches[2];
+  const coins = parseInt(matches[3]);
+
+  return {
+    userId,
+    userName,
+    coins
   };
 };
 
@@ -24,7 +35,22 @@ const extractMentionedUsers = text => {
   return usersData;
 }
 
+const extractMentionedUsersAndCoins = text => {
+  const regex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+[0-9]{1,3}/g;
+
+  const matches = text.match(regex);
+  const usersData = [];
+
+  for (let i = 0; i < matches.length; i += 1) {
+    usersData.push(extractMentionedUserAndCoins(matches[i]));
+  }
+
+  return usersData;
+}
+
 module.exports = {
   extractMentionedUser,
-  extractMentionedUsers
+  extractMentionedUsers,
+  extractMentionedUserAndCoins,
+  extractMentionedUsersAndCoins
 };
