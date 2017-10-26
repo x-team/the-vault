@@ -32,7 +32,7 @@ const fetchUsersFromTeam = () => {
   })
 }
 
-const notifyUserAboutCoinGranted = (userName) => {
+const notifyUserAboutCoinGranted = userName => {
   const slackClient = new Slack(process.env.SLACK_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
@@ -40,8 +40,8 @@ const notifyUserAboutCoinGranted = (userName) => {
       channel: `@${userName}`,
       text: 'You have been granted 1 new, shiny :coin:'
     }, (err, response) => {
-      if (err) {
-          reject(err);
+      if (response.ok === false || err) {
+          reject(response.error);
       } else if (response.ok === true) {
           resolve();
       }

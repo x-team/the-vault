@@ -12,6 +12,7 @@ class ListCoinsCommand {
     this.slack.on('/listvault', async (msg, bot) => {
       try {
         let message = 'Vault: \n';
+
         if (isAdmin(msg.user_name)) {
           const data = await this.coinsService.getAll();
 
@@ -21,6 +22,7 @@ class ListCoinsCommand {
         } else {
           const data = await this.coinsService.get(msg.user_id);
           const coins = data ? data.coins : 0;
+
           message = `You have ${coins} :coin:`;
         }
 
