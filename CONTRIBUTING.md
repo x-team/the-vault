@@ -31,6 +31,7 @@ In the `Slash Commands` section of the Slack App page you will have to install t
 - `/listvault`
 - `/grantcoin`
 - `/overwritecoins`
+- `/drawcoin`
 
 Make sure to enable `Escape channels, users, and links sent to your app` option.
 
