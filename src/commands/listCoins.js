@@ -17,7 +17,7 @@ class ListCoinsCommand {
           const data = await this.coinsService.getAll();
 
           for (const index in data) {
-            message += `\n${data[index].name} - ${data[index].coins} :coin:`;
+            message += `\n${data[index].name} - ${data[index].coins}`;
           }
         } else {
           const data = await this.coinsService.get(msg.user_id);
