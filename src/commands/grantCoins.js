@@ -1,5 +1,5 @@
 const isAdmin = require('../utils/isAdmin');
-const extractMentionedUsers = require('../utils/extractMentionedUsers');
+const { extractMentionedUsers } = require('../utils/extractMentionedUsers');
 const { fetchUsersFromTeam, notifyUserAboutCoinGranted } = require('../services/slack');
 
 class GrantCoinsCommand {

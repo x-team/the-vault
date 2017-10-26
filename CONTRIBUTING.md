@@ -27,9 +27,11 @@ To fill out secrets, run `cp serverless.env.yml.example serverless.env.yml` and 
 
 Additionally to the instructions above you'll have to paste the `SLACK_OAUTH_ACCESS_TOKEN` from `OAuth & Permissions` section of the Slack App page.
 
-In the `Slash Commands` section of the Slack App page you will have to install the following commands that corespond to the commands in the source code:
+In the `Slash Commands` section of the Slack App page you will have to install the following commands that correspond to the commands in the source code:
 - `/listvault`
 - `/grantcoin`
+
+Make sure to enable `Escape channels, users, and links sent to your app` option.
 
 ### Deployment
 
