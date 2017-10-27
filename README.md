@@ -16,4 +16,4 @@ Although we still have some [core requirements](https://github.com/x-team/the-va
 
 First of all, ***THANKS***, for even considering your contribution! ***YOU ROCK!***
 
-Head over to  [CONTRIBUTING](https://github.com/jacekelgda/the-vault/blob/master/CONTRIBUTING.md) for details.
+Head over to  [CONTRIBUTING](https://github.com/x-team/the-vault/blob/master/CONTRIBUTING.md) for details.
