@@ -12,7 +12,7 @@ In order to bring this to the whole different level ![](https://github.com/snipe
 
 ### Specs! :pencil: :green_book: :card_index:
 
-Check out [issues](https://github.com/jacekelgda/the-vault/issues) section to pick up, propose and comment issues for this project. We would like to keep this as much community effort as possible, that means ***YOUR IDEAS MATTER!***
+Check out [issues](https://github.com/x-team/the-vault/issues) section to pick up, propose and comment issues for this project. We would like to keep this as much community effort as possible, that means ***YOUR IDEAS MATTER!***
 
 This project will be in focus for some time now and we would like to just go crazy with all different kinds of functionality. We already have some ideas but that doesn't mean we figured out 100% of it.
 
