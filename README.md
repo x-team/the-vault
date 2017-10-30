@@ -10,10 +10,10 @@ The Vault is the project that originated at [X-Team](http://x-team.com).<br>It a
 
 We would like to give out figuring the ***nuts and bolts*** to ***YOU!***
 
-Although we still have some [core requirements](https://github.com/jacekelgda/the-vault/milestone/1) that needs to be met.
+Although we still have some [core requirements](https://github.com/x-team/the-vault/milestone/1) that needs to be met.
 
 ### Contributing and Setup
 
 First of all, ***THANKS***, for even considering your contribution! ***YOU ROCK!***
 
-Head over to  [CONTRIBUTING](https://github.com/jacekelgda/the-vault/blob/master/CONTRIBUTING.md) for details.
+Head over to  [CONTRIBUTING](https://github.com/x-team/the-vault/blob/master/CONTRIBUTING.md) for details.
