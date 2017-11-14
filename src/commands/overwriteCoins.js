@@ -1,5 +1,6 @@
 const isAdmin = require('../utils/isAdmin');
 const { extractMentionedUsersAndCoins } = require('../utils/extractMentionedUsers');
+const { notifyActivityLogChannel } = require('../services/slack');
 
 class OverwriteCoinsCommand {
   constructor (slack, coinsService) {
@@ -29,6 +30,7 @@ class OverwriteCoinsCommand {
             await this.coinsService.update(users[i].userId, 'SET coins = :current', { ':current': users[i].coins });
 
             bot.replyPrivate(`Coins updated! ${users[i].userName} now has ${users[i].coins} :coin:.`);
+            await notifyActivityLogChannel(`${users[i].userName} has been overwritten to ${users[i].coins} :coin: by @${msg.user_name}`);
           } catch (error) {
             bot.replyPrivate('Whoops! An Error occured!');
           }

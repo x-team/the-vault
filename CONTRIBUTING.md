@@ -35,6 +35,8 @@ In the `Slash Commands` section of the Slack App page you will have to install t
 
 Make sure to enable `Escape channels, users, and links sent to your app` option.
 
+Create a `#vault-log` channel for the activity log
+
 ### Deployment
 
 ```bash
