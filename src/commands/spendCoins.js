@@ -1,6 +1,6 @@
 const { extractMentionedUsersAndCoins } = require('../utils/extractMentionedUsers');
 const isAdmin = require('../utils/isAdmin');
-const { notifyUserAboutCoinsSpent } = require('../services/slack');
+const { notifyUserAboutCoinsSpent, notifyActivityLogChannel } = require('../services/slack');
 
 class SpendCoinsCommand {
   constructor (slack, coinsService) {
@@ -25,6 +25,7 @@ class SpendCoinsCommand {
               await notifyUserAboutCoinsSpent(user.name, users[i].coins);
 
               bot.replyPrivate(`Coin subtracted! ${user.name} now has ${user.coins - users[i].coins} :coin:.`);
+              await notifyActivityLogChannel(`${user.name} has been subtracted to ${user.coins - users[i].coins} :coin: by @${msg.user_name}`);
             }
           } catch (error) {
             bot.replyPrivate('Whoops! An Error occured!');

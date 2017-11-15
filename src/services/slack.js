@@ -38,7 +38,27 @@ const notifyUserAboutCoinsSpent = (userName, cost) => {
   })
 }
 
+const notifyActivityLogChannel = (message) => {
+  const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
+
+  return new Promise((resolve, reject) => {
+    slackClient.api('chat.postMessage', {
+      channel: process.env.ACTIVITY_LOG_CHANNEL,
+      text: message
+    }, (err, response) => {
+      if (err) {
+          reject(err);
+      } else if (response.ok === false) {
+          reject(response.error);
+      } else if (response.ok === true) {
+          resolve();
+      }
+    })
+  })
+}
+
 module.exports = {
   notifyUserAboutCoinGranted,
-  notifyUserAboutCoinsSpent
+  notifyUserAboutCoinsSpent,
+  notifyActivityLogChannel
 }

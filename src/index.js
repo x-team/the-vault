@@ -18,3 +18,7 @@ new GrantCoinsCommand(slack, CoinsService);
 new ListCoinsCommand(slack, CoinsService);
 new OverwriteCoinsCommand(slack, CoinsService);
 new SpendCoinsCommand(slack, CoinsService);
+
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});

@@ -1,6 +1,6 @@
 const isAdmin = require('../utils/isAdmin');
 const { extractMentionedUsers } = require('../utils/extractMentionedUsers');
-const { notifyUserAboutCoinGranted } = require('../services/slack');
+const { notifyUserAboutCoinGranted, notifyActivityLogChannel } = require('../services/slack');
 
 class GrantCoinsCommand {
   constructor (slack, coinsService) {
@@ -29,6 +29,7 @@ class GrantCoinsCommand {
 
             await this.coinsService.update(users[i].userId, 'SET coins = coins + :one', { ':one': 1 });
             await notifyUserAboutCoinGranted(users[i].userName);
+            await notifyActivityLogChannel(`${users[i].userName} was granted 1 :coin: by @${msg.user_name}`);
 
             bot.replyPrivate(`Coin added! ${users[i].userName} now has ${user ? user.coins + 1 : 1} :coin:.`);
           } catch (error) {
