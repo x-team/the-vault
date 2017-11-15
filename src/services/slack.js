@@ -1,7 +1,5 @@
 const Slack = require('slack-node');
 
-const ACTIVITY_LOG_CHANNEL = 'vault-log'
-
 const notifyUserAboutCoinGranted = userName => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
@@ -45,7 +43,7 @@ const notifyActivityLogChannel = (message) => {
 
   return new Promise((resolve, reject) => {
     slackClient.api('chat.postMessage', {
-      channel: ACTIVITY_LOG_CHANNEL,
+      channel: process.env.ACTIVITY_LOG_CHANNEL,
       text: message
     }, (err, response) => {
       if (err) {
