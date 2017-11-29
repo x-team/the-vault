@@ -1,5 +1,5 @@
 const isAdmin = require('../utils/isAdmin');
-const { extractMentionedUsers } = require('../utils/extractMentionedUsers');
+const { extractMentionedUsersAndReason } = require('../utils/extractMentionedUsers');
 const { notifyUserAboutCoinGranted, notifyActivityLogChannel } = require('../services/slack');
 
 class GrantCoinsCommand {
@@ -12,9 +12,14 @@ class GrantCoinsCommand {
 
   init () {
     this.slack.on('/grantcoin', async (msg, bot) => {
-      const users = await extractMentionedUsers(msg.text);
-
       if (isAdmin(msg.user_name)) {
+        const { users, reason } = await extractMentionedUsersAndReason(msg.text);
+
+        if (!users.length) {
+          bot.replyPrivate('Please provide users to be granted :coin:!');
+          return;
+        }
+
         for (let i = 0; i < users.length; i += 1) {
           try {
             const user = await this.coinsService.get(users[i].userId);
@@ -28,8 +33,14 @@ class GrantCoinsCommand {
             }
 
             await this.coinsService.update(users[i].userId, 'SET coins = coins + :one', { ':one': 1 });
-            await notifyUserAboutCoinGranted(users[i].userName);
-            await notifyActivityLogChannel(`${users[i].userName} was granted 1 :coin: by @${msg.user_name}`);
+            await notifyUserAboutCoinGranted(users[i].userName, reason);
+            let logMessage = `${users[i].userName} was granted 1 :coin: by @${msg.user_name}`;
+
+            if (reason) {
+              logMessage += ` for ${reason}`;
+            }
+
+            await notifyActivityLogChannel(logMessage);
 
             bot.replyPrivate(`Coin added! ${users[i].userName} now has ${user ? user.coins + 1 : 1} :coin:.`);
           } catch (error) {

@@ -1,12 +1,20 @@
 const Slack = require('slack-node');
 
-const notifyUserAboutCoinGranted = userName => {
+const notifyUserAboutCoinGranted = (userName, reason) => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
+    let message = 'You have been granted 1 new, shiny :coin:';
+
+    if (reason) {
+      if (reason) {
+        message += ` for ${reason}`;
+      }
+    }
+
     slackClient.api('chat.postMessage', {
       channel: `@${userName}`,
-      text: 'You have been granted 1 new, shiny :coin:'
+      text: message
     }, (err, response) => {
       if (err) {
           reject(err);

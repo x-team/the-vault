@@ -48,9 +48,27 @@ const extractMentionedUsersAndCoins = text => {
   return usersData;
 }
 
+const extractMentionedUsersAndReason = text => {
+  const usersRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>/g;
+  const usersMatch = text.match(usersRegex) || [];
+
+  const reasonRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+([^>]*)$/;
+  const reasonMatch = text.match(reasonRegex);
+  const reason = reasonMatch ? reasonMatch[1] : null;
+
+  const users = [];
+
+  for (let i = 0; i < usersMatch.length; i += 1) {
+    users.push(extractMentionedUser(usersMatch[i]));
+  }
+
+  return { users, reason };
+}
+
 module.exports = {
   extractMentionedUser,
   extractMentionedUsers,
   extractMentionedUserAndCoins,
-  extractMentionedUsersAndCoins
+  extractMentionedUsersAndCoins,
+  extractMentionedUsersAndReason
 };
