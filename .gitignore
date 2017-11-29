@@ -8,3 +8,6 @@ serverless.env.yml
 
 # Build
 build
+
+# Other
+.idea
