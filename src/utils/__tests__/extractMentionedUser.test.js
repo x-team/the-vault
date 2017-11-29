@@ -2,7 +2,8 @@ const {
   extractMentionedUser,
   extractMentionedUsers,
   extractMentionedUserAndCoins,
-  extractMentionedUsersAndCoins
+  extractMentionedUsersAndCoins,
+  extractMentionedUsersAndReason
 } = require('./../extractMentionedUsers');
 
 test('it should extract user facts from message', () => {
@@ -59,4 +60,26 @@ test('it should extract users facts from message with coins', () => {
     }
   ];
   expect(extractMentionedUsersAndCoins(text)).toEqual(data);
+});
+
+test('it should extract users and reason from /grantcoin message', () => {
+  const text = '<@U7A9CF0SH|jacek.lawniczak> <@U7A9CF0SV|raf>    <@U7A9CF0SH|raf.wilinski2> this is the reason';
+  const users = [
+    {
+      userId: 'U7A9CF0SH',
+      userName: 'jacek.lawniczak'
+    },
+    {
+      userId: 'U7A9CF0SV',
+      userName: 'raf'
+    },
+    {
+      userId: 'U7A9CF0SH',
+      userName: 'raf.wilinski2'
+    }
+  ];
+
+  const reason = 'this is the reason';
+
+  expect(extractMentionedUsersAndReason(text)).toEqual({ reason, users });
 });
