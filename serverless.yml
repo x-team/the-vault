@@ -24,6 +24,7 @@ provider:
     ENABLE_LOGGING: ${file(./serverless.env.yml):dev.SLACK_ENABLE_LOGGING}
     SLACK_ADMINS: ${file(./serverless.env.yml):dev.SLACK_ADMINS}
     SLACK_BOT_USER_OAUTH_ACCESS_TOKEN: ${file(./serverless.env.yml):dev.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN}
+    ACTIVITY_LOG_CHANNEL: ${file(./serverless.env.yml):dev.ACTIVITY_LOG_CHANNEL}
 
 functions:
   slack:
