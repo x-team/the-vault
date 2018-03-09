@@ -18,14 +18,15 @@ class SpendCoinsCommand {
         for (let i = 0; i < users.length; i += 1) {
           try {
             const user = await this.coinsService.get(users[i].userId);
-            if (!user || user.coins === 0 || user.coins < users[i].coins) {
+            const coinsToSubtract = users[i].coins ? users[i].coins : 1;
+            if (!user || user.coins === 0 || user.coins < coinsToSubtract) {
               bot.replyPrivate('User does not have enough coins to subtract from');
             } else {
-              await this.coinsService.update(users[i].userId, 'SET coins = coins - :cost', { ':cost': users[i].coins });
-              await notifyUserAboutCoinsSpent(user.name, users[i].coins);
+              await this.coinsService.update(users[i].userId, 'SET coins = coins - :cost', { ':cost': coinsToSubtract });
+              await notifyUserAboutCoinsSpent(user.name, coinsToSubtract);
 
-              bot.replyPrivate(`Coin subtracted! ${user.name} now has ${user.coins - users[i].coins} :coin:.`);
-              await notifyActivityLogChannel(`${user.name} has been subtracted to ${user.coins - users[i].coins} :coin: by @${msg.user_name}`);
+              bot.replyPrivate(`Coin subtracted! ${user.name} now has ${user.coins - coinsToSubtract} :coin:.`);
+              await notifyActivityLogChannel(`${user.name} has been subtracted to ${user.coins - coinsToSubtract} :coin: by @${msg.user_name}`);
             }
           } catch (error) {
             bot.replyPrivate('Whoops! An Error occured!');
