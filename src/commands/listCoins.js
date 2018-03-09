@@ -1,3 +1,4 @@
+const { extractMentionedUser } = require('../utils/extractMentionedUsers');
 const isAdmin = require('../utils/isAdmin');
 
 class ListCoinsCommand {
