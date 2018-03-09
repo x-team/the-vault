@@ -1,9 +1,6 @@
 const Slack = require('slack-node');
 
-const notifyUserAboutCoinGranted = (userName, totalCoins, reason) => {
-  if (!reason) {
-    reason = "no reason";
-  }
+const notifyUserAboutCoinGranted = (userName, totalCoins, reason = 'no reason') => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
@@ -41,7 +38,7 @@ const notifyUserAboutCoinsSpent = (userName, cost) => {
   })
 }
 
-const notifyActivityLogChannel = (message) => {
+const notifyActivityLogChannel = message => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
