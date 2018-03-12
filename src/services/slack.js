@@ -1,6 +1,6 @@
 const Slack = require('slack-node');
 
-const notifyUserAboutCoinGranted = (userName, totalCoins, reason = 'no reason') => {
+const notifyUserAboutCoinGranted = (userName, totalCoins, reason = 'Reason was not provided') => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
