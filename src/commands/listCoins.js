@@ -1,3 +1,4 @@
+const { extractMentionedUser } = require('../utils/extractMentionedUsers');
 const isAdmin = require('../utils/isAdmin');
 
 class ListCoinsCommand {
@@ -14,7 +15,13 @@ class ListCoinsCommand {
         let message = 'Vault: \n';
 
         if (isAdmin(msg.user_name)) {
-          const data = await this.coinsService.getAll();
+          let data = [];
+          const user = await extractMentionedUser(msg.text);
+          if (user && user.userId) {
+            data = await this.coinsService.get(user.userId);
+          } else {
+            data = await this.coinsService.getAll();
+          }
 
           for (const index in data) {
             message += `\n${data[index].name} - ${data[index].coins}`;
