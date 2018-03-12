@@ -19,6 +19,7 @@ class SpendCoinsCommand {
           try {
             const user = await this.coinsService.get(users[i].userId);
             const coinsToSubtract = users[i].coins ? users[i].coins : 1;
+
             if (!user || user.coins === 0 || user.coins < coinsToSubtract) {
               bot.replyPrivate('User does not have enough coins to subtract from');
             } else {

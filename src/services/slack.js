@@ -1,12 +1,12 @@
 const Slack = require('slack-node');
 
-const notifyUserAboutCoinGranted = (userName, totalCoins, reason) => {
+const notifyUserAboutCoinGranted = (userName, totalCoins, reason = 'Reason was not provided') => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
     slackClient.api('chat.postMessage', {
       channel: `@${userName}`,
-      text: `You have been granted 1 new, shiny :coin: ${reason}. You now have ${totalCoins} :coin:. Redeem them at: https://x-team.com/vault`
+      text: `You have been granted 1 new, shiny :coin: for "${reason}". You now have ${totalCoins} :coin:. Redeem them at: https://x-team.com/vault`
     }, (err, response) => {
       if (err) {
           reject(err);
@@ -38,7 +38,7 @@ const notifyUserAboutCoinsSpent = (userName, cost) => {
   })
 }
 
-const notifyActivityLogChannel = (message) => {
+const notifyActivityLogChannel = message => {
   const slackClient = new Slack(process.env.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN);
 
   return new Promise((resolve, reject) => {
