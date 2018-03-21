@@ -93,3 +93,11 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${file(./serverless.env.yml):dev.COINS_TABLE_NAME}
+
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
+custom:
+  serverless-offline:
+    port: 1337

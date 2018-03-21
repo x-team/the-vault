@@ -1,70 +1,18 @@
-class DynamoDBService {
-  constructor (documentClient, tableName) {
-    this.db = documentClient;
-    this.tableName = tableName;
+const AWS = require('aws-sdk');
+
+const DynamoService = (options) => {
+  if (!options) {
+    options = {};
   }
 
-  get (id) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        id
-      }
-    };
+  console.log('HELLO!!!')
 
-    return this.db
-      .get(params)
-      .promise()
-      .then(data => data.Item);
-  }
-
-  getAll () {
-    const params = {
-      TableName: this.tableName
-    };
-
-    return this.db
-      .scan(params)
-      .promise()
-      .then(data => data.Items);
-  }
-
-  put (Item) {
-    if (!Item.id) {
-      return Promise.reject('Item.id is not defined!');
-    }
-
-    const params = {
-      TableName: this.tableName,
-      Item
-    };
-
-    return this.db.put(params).promise();
-  }
-
-  update (id, UpdateExpression, ExpressionAttributeValues) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        id
-      },
-      UpdateExpression,
-      ExpressionAttributeValues
-    };
-
-    return this.db.update(params).promise();
-  }
-
-  delete (id) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        id
-      }
-    };
-
-    return this.db.delete(params).promise();
-  }
+  return new AWS.DynamoDB.DocumentClient({
+    region: process.env.LOCAL === 1 ? 'localhost' : (
+      options.region || 'us-east-1'
+    ),
+    endpoint: process.env.LOCAL === 1  ? 'http://localhost:8000' : undefined,
+  }, 'Coins');
 }
 
-module.exports = DynamoDBService;
+module.exports = DynamoService;
