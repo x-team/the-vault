@@ -1,4 +1,9 @@
 const extractMentionedUser = text => {
+  const matches = text.match(/<@.*|.*>/);
+
+  if (!matches) {
+    return null;
+  }
   const mentionPart = text.split('<')[1].split('>')[0];
   const userId = mentionPart.split('|')[0].split('@')[1];
   const userName = mentionPart.split('|')[1];
@@ -52,9 +57,9 @@ const extractMentionedUsersAndReason = text => {
   const usersRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>/g;
   const usersMatch = text.match(usersRegex) || [];
 
-  const reasonRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+([^>]*)$/;
+  const reasonRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+(.*)$/;
   const reasonMatch = text.match(reasonRegex);
-  const reason = reasonMatch ? reasonMatch[1] : null;
+  const reason = reasonMatch ? reasonMatch[1] : '';
 
   const users = [];
 

@@ -19,7 +19,9 @@
     "eslint": "./node_modules/.bin/eslint src/**/*.js --fix",
     "build": "rm -fr build && babel ./src -d build",
     "deploy": "npm run build && serverless deploy",
+    "deploy-prod": "npm run build && serverless deploy --stage prod",
     "codedeploy": "npm run build && serverless deploy function -f slack",
+    "codedeploy-prod": "npm run build && serverless deploy function -f slack --stage prod",
     "test": "jest"
   },
   "repository": {
@@ -40,6 +42,8 @@
     "slack-node": "^0.1.8"
   },
   "devDependencies": {
-    "jest": "^21.2.1"
+    "jest": "^21.2.1",
+    "serverless-dynamodb-local": "^0.2.28",
+    "serverless-offline": "^3.18.0"
   }
 }

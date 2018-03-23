@@ -1,8 +1,13 @@
 service: serverless-slack
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs6.10
+  stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -15,16 +20,16 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
   environment:
-    TABLE_NAME: ${file(./serverless.env.yml):dev.SLACK_TABLE_NAME}
-    CLIENT_ID: ${file(./serverless.env.yml):dev.SLACK_CLIENT_ID}
-    CLIENT_SECRET: ${file(./serverless.env.yml):dev.SLACK_CLIENT_SECRET}
-    CLIENT_SCOPES: ${file(./serverless.env.yml):dev.SLACK_CLIENT_SCOPES}
-    INSTALL_REDIRECT: ${file(./serverless.env.yml):dev.SLACK_INSTALL_REDIRECT}
-    VERIFICATION_TOKEN: ${file(./serverless.env.yml):dev.SLACK_VERIFICATION_TOKEN}
-    ENABLE_LOGGING: ${file(./serverless.env.yml):dev.SLACK_ENABLE_LOGGING}
-    SLACK_ADMINS: ${file(./serverless.env.yml):dev.SLACK_ADMINS}
-    SLACK_BOT_USER_OAUTH_ACCESS_TOKEN: ${file(./serverless.env.yml):dev.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN}
-    ACTIVITY_LOG_CHANNEL: ${file(./serverless.env.yml):dev.ACTIVITY_LOG_CHANNEL}
+    TABLE_NAME: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_TABLE_NAME}
+    CLIENT_ID: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_CLIENT_ID}
+    CLIENT_SECRET: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_CLIENT_SECRET}
+    CLIENT_SCOPES: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_CLIENT_SCOPES}
+    INSTALL_REDIRECT: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_INSTALL_REDIRECT}
+    VERIFICATION_TOKEN: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_VERIFICATION_TOKEN}
+    ENABLE_LOGGING: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_ENABLE_LOGGING}
+    SLACK_ADMINS: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_ADMINS}
+    SLACK_BOT_USER_OAUTH_ACCESS_TOKEN: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN}
+    ACTIVITY_LOG_CHANNEL: ${file(./serverless.env.yml):${self:provider.stage}.ACTIVITY_LOG_CHANNEL}
 
 functions:
   slack:
@@ -32,7 +37,7 @@ functions:
     events:
       ## Slash Commands, Events, and Interactive Messages
       - http:
-          path: ${file(./serverless.env.yml):dev.SLACK_EVENT_PATH}
+          path: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_EVENT_PATH}
           method: post
           integration: lambda
           response:
@@ -40,7 +45,7 @@ functions:
 
       ## OAuth Routes
       - http:
-          path: ${file(./serverless.env.yml):dev.SLACK_EVENT_PATH}
+          path: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_EVENT_PATH}
           method: get
           integration: lambda
           request:
@@ -76,7 +81,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${file(./serverless.env.yml):dev.SLACK_TABLE_NAME}
+        TableName: ${file(./serverless.env.yml):${self:provider.stage}.SLACK_TABLE_NAME}
     CoinsTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
@@ -92,4 +97,4 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${file(./serverless.env.yml):dev.COINS_TABLE_NAME}
+        TableName: ${file(./serverless.env.yml):${self:provider.stage}.COINS_TABLE_NAME}
