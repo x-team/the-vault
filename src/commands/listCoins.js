@@ -17,14 +17,17 @@ class ListCoinsCommand {
         if (isAdmin(msg.user_name)) {
           let data = [];
           const user = await extractMentionedUser(msg.text);
+
           if (user && user.userId) {
-            data = await this.coinsService.get(user.userId);
+            data = await this.coinsService.get(user.userId)
+            const coins = data ? data.coins : 0;
+
+            message = `${user.userName} has ${coins} :coin:`;
           } else {
             data = await this.coinsService.getAll();
-          }
-
-          for (const index in data) {
-            message += `\n${data[index].name} - ${data[index].coins}`;
+            for (const index in data) {
+              message += `\n${data[index].name} - ${data[index].coins}`;
+            }
           }
         } else {
           const data = await this.coinsService.get(msg.user_id);

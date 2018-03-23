@@ -1,4 +1,9 @@
 const extractMentionedUser = text => {
+  const matches = text.match(/<@.*|.*>/);
+
+  if (!matches) {
+    return null;
+  }
   const mentionPart = text.split('<')[1].split('>')[0];
   const userId = mentionPart.split('|')[0].split('@')[1];
   const userName = mentionPart.split('|')[1];
