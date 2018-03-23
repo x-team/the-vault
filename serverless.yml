@@ -1,5 +1,9 @@
 service: serverless-slack
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs6.10
