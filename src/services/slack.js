@@ -6,7 +6,7 @@ const notifyUserAboutCoinGranted = (userName, totalCoins, reason = 'Reason was n
   return new Promise((resolve, reject) => {
     slackClient.api('chat.postMessage', {
       channel: `@${userName}`,
-      text: `You have been granted 1 new, shiny :coin: for "${reason}". You now have ${totalCoins} :coin:. Redeem them at: https://x-team.com/vault`
+      text: `You have been granted 1 new, shiny :coin: ${reason}. You now have ${totalCoins} :coin:. Redeem them at: https://x-team.com/vault`
     }, (err, response) => {
       if (err) {
           reject(err);

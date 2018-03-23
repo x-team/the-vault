@@ -22,7 +22,7 @@ class ListCoinsCommand {
             data = await this.coinsService.get(user.userId)
             const coins = data ? data.coins : 0;
 
-            message = `${user.userName} has ${coins} :coin:`;
+            message = `<@${user.userId}> has ${coins} :coin:`;
           } else {
             data = await this.coinsService.getAll();
             for (const index in data) {

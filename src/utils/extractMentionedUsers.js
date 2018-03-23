@@ -57,9 +57,9 @@ const extractMentionedUsersAndReason = text => {
   const usersRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>/g;
   const usersMatch = text.match(usersRegex) || [];
 
-  const reasonRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+([^>]*)$/;
+  const reasonRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+(.*)$/;
   const reasonMatch = text.match(reasonRegex);
-  const reason = reasonMatch ? reasonMatch[1] : null;
+  const reason = reasonMatch ? reasonMatch[1] : '';
 
   const users = [];
 
