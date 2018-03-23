@@ -19,7 +19,9 @@
     "eslint": "./node_modules/.bin/eslint src/**/*.js --fix",
     "build": "rm -fr build && babel ./src -d build",
     "deploy": "npm run build && serverless deploy",
+    "deploy-prod": "npm run build && serverless deploy --stage prod",
     "codedeploy": "npm run build && serverless deploy function -f slack",
+    "codedeploy-prod": "npm run build && serverless deploy function -f slack --stage prod",
     "test": "jest"
   },
   "repository": {
