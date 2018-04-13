@@ -5,7 +5,7 @@ const DocumentDB = new AWS.DynamoDB.DocumentClient();
 const slack = require('serverless-slack');
 const DynamoDBService = require('./services/dynamodb');
 
-const CoinsService = new DynamoDBService(DocumentDB, 'Coins');
+const CoinsService = new DynamoDBService(DocumentDB, process.env.COINS_TABLE_NAME);
 
 const GrantCoinsCommand = require('./commands/grantCoins');
 const ListCoinsCommand = require('./commands/listCoins');
