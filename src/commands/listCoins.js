@@ -16,10 +16,20 @@ class ListCoinsCommand {
 
         if (isAdmin(msg.user_name)) {
           let data = [];
-          const user = await extractMentionedUser(msg.text);
-          if (user && user.userId) {
-            data = await this.coinsService.get(user.userId);
-          } else {
+
+          console.log('Admin ' + msg.user_name + ' requesting vault for ' + msg.text);
+          if(msg.text && msg.text.length > 0) {
+            const user = await extractMentionedUser(msg.text);
+            if (user && user.userId) {
+              data.push(await this.coinsService.get(user.userId));
+              console.log('Returned data for ' + msg.text);
+              console.log(data);
+            } else {
+              bot.replyPrivate('Whoops, please enter a valid username to view their coins');
+            }
+          }
+          else {
+            console.log('Requesting coindata for all users');
             data = await this.coinsService.getAll();
           }
 
