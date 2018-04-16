@@ -34,6 +34,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-latest": "^6.24.1",
+    "debug": "^3.1.0",
     "eslint": "^4.8.0",
     "regenerator-runtime": "^0.11.0",
     "serverless-slack": "^1.0.25",
