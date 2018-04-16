@@ -1,9 +1,12 @@
 'use strict';
 
+const debug = require('debug')('app');
 const AWS = require('aws-sdk');
 const DocumentDB = new AWS.DynamoDB.DocumentClient();
 const slack = require('serverless-slack');
 const DynamoDBService = require('./services/dynamodb');
+
+debug('Database: ' + process.env.COINS_TABLE_NAME);
 
 const CoinsService = new DynamoDBService(DocumentDB, process.env.COINS_TABLE_NAME);
 

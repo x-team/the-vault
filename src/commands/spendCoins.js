@@ -30,6 +30,7 @@ class SpendCoinsCommand {
               await notifyActivityLogChannel(`${user.name} has been subtracted to ${user.coins - coinsToSubtract} :coin: by @${msg.user_name}`);
             }
           } catch (error) {
+            console.log(error);
             bot.replyPrivate('Whoops! An Error occured!');
           }
         }
