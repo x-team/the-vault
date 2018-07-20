@@ -1,15 +1,15 @@
 class DynamoDBService {
-  constructor (documentClient, tableName) {
+  constructor(documentClient, tableName) {
     this.db = documentClient;
     this.tableName = tableName;
   }
 
-  get (id) {
+  get(id) {
     const params = {
       TableName: this.tableName,
       Key: {
-        id
-      }
+        id,
+      },
     };
 
     return this.db
@@ -18,9 +18,9 @@ class DynamoDBService {
       .then(data => data.Item);
   }
 
-  getAll () {
+  getAll() {
     const params = {
-      TableName: this.tableName
+      TableName: this.tableName,
     };
 
     return this.db
@@ -29,38 +29,60 @@ class DynamoDBService {
       .then(data => data.Items);
   }
 
-  put (Item) {
+  getByQuery(KeyConditionExpression, ExpressionAttributeValues) {
+    // const params = {
+    //   TableName: this.tableName,
+    //   KeyConditionExpression,
+    //   ExpressionAttributeValues,
+    // };
+
+    const params = {
+      TableName: this.tableName,
+      KeyConditionExpression: 'active = :a',
+      FilterExpression: 'active = :a',
+      ExpressionAttributeValues: {
+        ':a': '1',
+      },
+    };
+
+    return this.db
+      .scan(params)
+      .promise()
+      .then(data => data.Items);
+  }
+
+  put(Item) {
     if (!Item.id) {
       return Promise.reject('Item.id is not defined!');
     }
 
     const params = {
       TableName: this.tableName,
-      Item
+      Item,
     };
 
     return this.db.put(params).promise();
   }
 
-  update (id, UpdateExpression, ExpressionAttributeValues) {
+  update(id, UpdateExpression, ExpressionAttributeValues) {
     const params = {
       TableName: this.tableName,
       Key: {
-        id
+        id,
       },
       UpdateExpression,
-      ExpressionAttributeValues
+      ExpressionAttributeValues,
     };
 
     return this.db.update(params).promise();
   }
 
-  delete (id) {
+  delete(id) {
     const params = {
       TableName: this.tableName,
       Key: {
-        id
-      }
+        id,
+      },
     };
 
     return this.db.delete(params).promise();

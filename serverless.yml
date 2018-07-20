@@ -26,6 +26,8 @@ provider:
     SLACK_BOT_USER_OAUTH_ACCESS_TOKEN: ${file(./serverless.env.yml):dev.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN}
     ACTIVITY_LOG_CHANNEL: ${file(./serverless.env.yml):dev.ACTIVITY_LOG_CHANNEL}
     COINS_TABLE_NAME: ${file(./serverless.env.yml):dev.COINS_TABLE_NAME}
+    ACHIEVEMENTS_TABLE_NAME: ${file(./serverless.env.yml):dev.ACHIEVEMENTS_TABLE_NAME}
+
     DEBUG: ${file(./serverless.env.yml):dev.DEBUG}
 
 functions:
@@ -95,3 +97,19 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${file(./serverless.env.yml):dev.COINS_TABLE_NAME}
+    AchievementsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${file(./serverless.env.yml):dev.ACHIEVEMENTS_TABLE_NAME}

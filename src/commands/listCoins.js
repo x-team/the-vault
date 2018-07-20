@@ -3,14 +3,14 @@ const { extractMentionedUser } = require('../utils/extractMentionedUsers');
 const isAdmin = require('../utils/isAdmin');
 
 class ListCoinsCommand {
-  constructor (slack, coinsService) {
+  constructor(slack, coinsService) {
     this.slack = slack;
     this.coinsService = coinsService;
 
     this.init();
   }
 
-  init () {
+  init() {
     this.slack.on('/listvault', async (msg, bot) => {
       try {
         let message = 'Vault: \n';
@@ -19,17 +19,18 @@ class ListCoinsCommand {
           let data = [];
 
           debug('Admin ' + msg.user_name + ' requesting vault for ' + msg.text);
-          if(msg.text && msg.text.length > 0) {
+          if (msg.text && msg.text.length > 0) {
             const user = await extractMentionedUser(msg.text);
             if (user && user.userId) {
               data.push(await this.coinsService.get(user.userId));
               debug('Returned data for ' + msg.text);
               debug(data);
             } else {
-              bot.replyPrivate('Whoops, please enter a valid username to view their coins');
+              bot.replyPrivate(
+                'Whoops, please enter a valid username to view their coins'
+              );
             }
-          }
-          else {
+          } else {
             debug('Requesting coindata for all users');
             data = await this.coinsService.getAll();
           }
